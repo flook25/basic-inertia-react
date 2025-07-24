@@ -35,9 +35,17 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
-            ...parent::share($request),
-            //
-        ];
+        return array_merge(parent::share($request), [
+            'auth' => [
+                'user' => $request->user() ? [
+                    'id' => $request->user()->id,
+                    'name' => $request->user()->name,
+                    'email' => $request->user()->email,
+                    'position' => $request->user()->position,
+                    'avatar' => $request->user()->avatar,
+                    'is_team' => $request->user()->is_team,
+                ] : null,
+            ],
+        ]);
     }
 }
